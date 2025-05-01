@@ -1,0 +1,27 @@
+{
+  "slug": "LuaBox",
+  "name": "LuaBox",
+  "version": "2.0.0",
+  "license": "GPL-3.0",
+  "brand": "nuoun",
+  "author": "nuoun",
+  "authorEmail": "",
+  "authorUrl": "",
+  "pluginUrl": "",
+  "manualUrl": "",
+  "sourceUrl": "",
+  "donateUrl": "",
+  "changelogUrl": "",
+  "minRackVersion": "2.4.0",
+  "modules": [
+    {
+      "slug": "LuaBox",
+      "name": "Lua Box",
+      "description": "LuaJIT sandbox",
+      "tags": [
+        "Logic",
+        "Utility"
+      ]
+    }
+  ]
+}

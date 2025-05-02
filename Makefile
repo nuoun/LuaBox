@@ -1,12 +1,10 @@
-# If running on macOS, set deployment target
-ifeq ($(shell uname), Darwin)
-	export MACOSX_DEPLOYMENT_TARGET=10.9
+include $(RACK_DIR)/arch.mk
+
+ifdef ARCH_MAC
+	export MACOSX_DEPLOYMENT_TARGET=10.7
 endif
 
-# If RACK_DIR is not defined when calling the Makefile, default to two directories above
-RACK_DIR ?= ../..
-
-# LuaJIT build
+# LuaJIT build configuration
 LUAJIT_DIR := lib/LuaJIT
 LUAJIT_SRC := $(LUAJIT_DIR)/src
 LUAJIT_LIB := $(LUAJIT_SRC)/libluajit.a
@@ -14,26 +12,32 @@ LUAJIT_LIB := $(LUAJIT_SRC)/libluajit.a
 FLAGS += -I$(LUAJIT_SRC)
 LDFLAGS += $(LUAJIT_LIB)
 
-OBJECTS += $(LUAJIT_LIB)
-DEPS += $(LUAJIT_LIB)
-
+# Source files
 SOURCES += $(wildcard src/*.cpp)
 
+# Distributable files
 DISTRIBUTABLES += res script
 DISTRIBUTABLES += $(wildcard LICENSE*)
 
+# Dependencies
+DEPS += $(LUAJIT_LIB)
+
 # Build LuaJIT
 $(LUAJIT_LIB):
-	cd $(LUAJIT_DIR) && $(MAKE) BUILDMODE=static
 
-# Hook into default target to ensure LuaJIT builds
-dep: $(LUAJIT_BUILD)
+ifdef ARCH_WIN
+	cd $(LUAJIT_DIR) && $(MAKE) BUILDMODE=static TARGET_SYS=Windows CROSS=x86_64-w64-mingw32- TARGET_FLAGS="-DLUAJIT_OS=LUAJIT_OS_WINDOWS"
+else
+	cd $(LUAJIT_DIR) && $(MAKE) BUILDMODE=static
+endif
+
+# Hook into default dependency rule to build LuaJIT first
+dep: $(LUAJIT_LIB)
 
 clean-luajit:
-	$(RM) $(LUAJIT_OBJ) $(LUAJIT_BUILD)
 	$(MAKE) -C $(LUAJIT_DIR) clean
 
-# clean: clean-luajit
+clean: clean-luajit
 
 # Include the VCV Rack plugin Makefile framework
 include $(RACK_DIR)/plugin.mk

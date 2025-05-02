@@ -2,6 +2,7 @@
 
 #pragma once
 #include <rack.hpp>
+#include <array>
 #include "util.hpp"
 
 using namespace rack;

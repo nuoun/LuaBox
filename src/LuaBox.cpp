@@ -162,7 +162,7 @@ struct LuaBox : Module
         lua_pop(L, 1); // Pop os
 
         // Add allowed standard library tables to the sandbox
-        static constexpr std::initializer_list<const char *> allowedLibs{"math", "string", "table", "bit"};
+        static constexpr std::array<const char *, 4> allowedLibs = {"math", "string", "table", "bit"};
         for (const auto &table : allowedLibs)
         {
             lua_getglobal(L, table);
@@ -176,8 +176,8 @@ struct LuaBox : Module
         }
 
         // Add allowed functions to the sandbox
-        static constexpr std::initializer_list<const char *> allowedFuncs{
-            "pairs", "ipairs", "unpack", "next", "type", "tostring", "tonumber", "setmetatable", "assert", "pcall", "xpcall", "error"};
+        static constexpr std::array<const char *, 12> allowedFuncs = {"pairs",    "ipairs",       "unpack", "next",  "type",   "tostring",
+                                                                      "tonumber", "setmetatable", "assert", "pcall", "xpcall", "error"};
         for (const auto &func : allowedFuncs)
         {
             lua_getglobal(L, func);

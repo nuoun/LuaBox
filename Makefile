@@ -1,3 +1,8 @@
+# If running on macOS, set deployment target
+ifeq ($(shell uname), Darwin)
+	export MACOSX_DEPLOYMENT_TARGET=10.9
+endif
+
 # If RACK_DIR is not defined when calling the Makefile, default to two directories above
 RACK_DIR ?= ../..
 

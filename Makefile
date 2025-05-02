@@ -7,7 +7,7 @@ endif
 RACK_DIR ?= ../..
 
 # LuaJIT build
-LUAJIT_DIR := lib/luajit
+LUAJIT_DIR := lib/LuaJIT
 LUAJIT_SRC := $(LUAJIT_DIR)/src
 LUAJIT_LIB := $(LUAJIT_SRC)/libluajit.a
 

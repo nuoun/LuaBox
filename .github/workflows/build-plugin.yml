@@ -48,6 +48,9 @@ jobs:
         with:
           path: plugin.json
           key: ${{ github.sha }}-${{ github.run_id }}
+      - name: Init submodules (LuaJIT)
+        run: |
+          git submodule update --init --recursive
       - name: Build plugin
         run: |
           export PLUGIN_DIR=$GITHUB_WORKSPACE

@@ -50,6 +50,7 @@ jobs:
           key: ${{ github.sha }}-${{ github.run_id }}
       - name: Init submodules (LuaJIT)
         run: |
+          git config --global --add safe.directory /__w/LuaBox/LuaBox
           git submodule update --init --recursive
       - name: Build plugin
         run: |

@@ -15,7 +15,7 @@ FLAGS += -I$(LUAJIT_SRC)
 LDFLAGS += $(LUAJIT_LIB)
 
 DEPS += $(LUAJIT_LIB)
-OBJECTS += $(LUAJIT_LIB)
+# OBJECTS += $(LUAJIT_LIB)
 
 SOURCES += $(wildcard src/*.cpp)
 

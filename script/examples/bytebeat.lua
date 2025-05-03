@@ -16,9 +16,9 @@ local expression = [[
 (t^4)%(4*(t>>6&(t>>3))^2)
 ]]
 
-local freq = 8000
-local step = 1
-local start = 1
+local freq = 6000 -- Frequency in Hz: controls how fast time (t) progresses in the bytebeat expression
+local step = 1    -- Step size: how much to increment the internal counter per sample (typically 1)
+local start = 1   -- Starting value of time (t): allows offsetting the beginning of the generated sequence
 
 --[[
 ((t^14)+(t % 128))%(2*((t>>5)^2))
@@ -57,7 +57,7 @@ local precedence = {
     ["?"] = 11
 }
 
--- Simple recursive descent parser for bytebeat expressions
+-- Recursive descent parser for bytebeat expressions
 local function build(expr)
     local pos = 1
     local len = #expr
@@ -199,15 +199,15 @@ local function build(expr)
     return ast
 end
 
--- Evaluate an AST with a given value for t
-local function evaluate(ast, t_value)
+-- Calculate sample value from the AST with a given value for t
+local function calculate_sample(ast, t_value)
     if ast.type == "number" then
         return ast.value
     elseif ast.type == "variable" and ast.name == "t" then
         return t_value
     elseif ast.type == "binary" then
-        local left = evaluate(ast.left, t_value)
-        local right = evaluate(ast.right, t_value)
+        local left = calculate_sample(ast.left, t_value)
+        local right = calculate_sample(ast.right, t_value)
 
         local op = ast.operator
 
@@ -248,13 +248,13 @@ local function evaluate(ast, t_value)
         end
     elseif ast.type == "ternary" then
         -- Evaluate the condition first
-        local condition = evaluate(ast.condition, t_value)
+        local condition = calculate_sample(ast.condition, t_value)
 
         -- In C, any non-zero value is considered true
         if condition ~= 0 then
-            return evaluate(ast.true_expr, t_value)
+            return calculate_sample(ast.true_expr, t_value)
         else
-            return evaluate(ast.false_expr, t_value)
+            return calculate_sample(ast.false_expr, t_value)
         end
     else
         error("Unknown type: " .. ast.type)
@@ -265,8 +265,8 @@ local ast = build(expression)
 local counter = 0
 local type = 1
 
--- Function called by the audio system
 function process()
+
     -- Type select button
     for i = 1, 5 do
         if block.button[i] then 
@@ -281,9 +281,7 @@ function process()
 
     local t = floor((counter / block.samplerate) * freq)
     local t_value = start + t
-
-    -- Evaluate the expression using our AST
-    local sample = evaluate(ast, t_value)
+    local sample = calculate_sample(ast, t_value)
 
     -- Mapping
     if type == 1 then -- Signed byte interpretation

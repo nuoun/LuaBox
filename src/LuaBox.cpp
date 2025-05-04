@@ -1,7 +1,7 @@
 // LuaBox.cpp
 
 #include "plugin.hpp"
-#include <lua.hpp>
+#include "lua.hpp"
 #include <array>
 
 using namespace rack;

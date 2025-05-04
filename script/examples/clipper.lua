@@ -15,11 +15,9 @@ Outputs
 ]]
 
 local type = 1
-local min_dB = -30
-local max_dB = 30
+local min_dB, max_dB = -30, 30
 
 function process()
-
     -- Dry signal
     local dB = ((block.knob[1] + 1) / 2) * (max_dB - min_dB) + min_dB
     local gain = 10 ^ (dB / 20)
@@ -42,16 +40,13 @@ function process()
     if type == 1 then -- Hyperbolic tangent (tanh)
         outL = math.tanh(signalL)
         outR = math.tanh(signalR)
-    end
-    if type == 2 then -- Arc tangent (atan)
+    elseif type == 2 then -- Arc tangent (atan)
         outL = math.atan(signalL) * 0.7
         outR = math.atan(signalR) * 0.7
-    end
-    if type == 3 then -- Fast sigmoid
+    elseif type == 3 then -- Fast sigmoid
         outL = signalL / (math.abs(signalL) + 1)
         outR = signalR / (math.abs(signalR) + 1)
-    end
-    if type == 4 then -- Exponential clipping
+    elseif type == 4 then -- Exponential clipping
         if signalL < 0 then outL = -1 + math.exp(signalL)
         elseif signalL > 0 then outL = 1 - math.exp(-signalL)
         else outL = 0 end
@@ -59,8 +54,7 @@ function process()
         if signalR < 0 then outR = -1 + math.exp(signalR)
         elseif signalR > 0 then outR = 1 - math.exp(-signalR)
         else outR = 0 end
-    end
-    if type == 5 then -- Logarithmic clipping
+    elseif type == 5 then -- Logarithmic clipping
         local max_abs = 1
         local log_max = math.log(1 + max_abs)
     
@@ -73,8 +67,7 @@ function process()
         elseif signalR < -max_abs then outR = -max_abs
         elseif signalR == 0 then outR = 0
         else outR = (math.log(1 + math.abs(signalR)) / log_max) * (signalR / math.abs(signalR)) end
-    end
-    if type == 6 then -- Cubic clipping
+    elseif type == 6 then -- Cubic clipping
         if signalL < -1 then outL = -0.6667
         elseif signalL > 1 then outL = 0.6667
         else outL = signalL - (signalL ^ 3) * 0.3333 end
@@ -82,8 +75,7 @@ function process()
         if signalR < -1 then outR = -0.6667
         elseif signalR > 1 then outR = 0.6667
         else outR = signalR - (signalR ^ 3) * 0.3333 end
-    end
-    if type == 7 then -- Diode clipping
+    elseif type == 7 then -- Diode clipping
         local absSignalL = math.abs(signalL)
         local absSignalR = math.abs(signalR)
 

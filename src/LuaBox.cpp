@@ -1,15 +1,8 @@
 // LuaBox.cpp
 
 #include "plugin.hpp"
-// #include <lua.hpp>
+#include <lua.hpp>
 #include <array>
-
-extern "C"
-{
-#include "lua.h"
-#include "lauxlib.h"
-#include "lualib.h"
-}
 
 using namespace rack;
 

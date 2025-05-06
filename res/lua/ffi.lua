@@ -20,7 +20,7 @@ ffi.cdef[[
 -- Direct access to FFI casting
 local raw_cast = ffi.cast
 
--- Constant for array bounds
+-- Constants for array bounds
 local MAX_INDEX = 8
 local MAX_COLOR = 3
 

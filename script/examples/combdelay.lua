@@ -1,5 +1,5 @@
 --[[
-combdelay.lua - Delay with added feedback combfilter
+combdelay.lua - Delay with feedback combfilter
 
 Input 1: Signal in
 

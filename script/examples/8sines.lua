@@ -16,7 +16,7 @@ for i = 1, block.channels do
 end
 
 function process()
-    -- For each channel
+    -- For each output
     for i = 1, block.channels do
         -- Inputs
         local VOct = block.input[i] + block.knob[i]

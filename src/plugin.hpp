@@ -11,4 +11,4 @@ extern Plugin *pluginInstance;
 
 // Declare each Model, defined in each module source file
 extern Model *modelLuaBox;
-// extern Model *modelLuaEditor;
+extern Model *modelLuaBoxEditor;

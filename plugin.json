@@ -22,6 +22,14 @@
         "Logic",
         "Utility"
       ]
+    },
+    {
+      "slug": "LuaBoxEditor",
+      "name": "Lua Box Editor",
+      "description": "Expander for Lua Box",
+      "tags": [
+        "Expander"
+      ]
     }
   ]
 }
